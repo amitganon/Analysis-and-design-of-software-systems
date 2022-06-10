@@ -1,0 +1,51 @@
+package Presentation.View.SupplierView;
+
+import Presentation.Model.SupplierModel.SupplierModel;
+import Presentation.View.ApplicationView;
+import Presentation.View.View;
+import Presentation.ViewModel.SupplierViewModel.BillOfQuantityViewModel;
+
+public class EditProductView implements View {
+    private int catalogNumber;
+    private final BillOfQuantityViewModel billOfQuantityViewModel;
+    private final SupplierModel supplierModel;
+
+    public EditProductView(int catalogNumber, BillOfQuantityViewModel billOfQuantityViewModel, SupplierModel supplierModel) {
+        this.catalogNumber = catalogNumber;
+        this.billOfQuantityViewModel = billOfQuantityViewModel;
+        this.supplierModel = supplierModel;
+    }
+
+    @Override
+    public void printMenu() {
+        System.out.println("-----------------"+supplierModel.getName()+" product editing-----------------");
+        System.out.println("1- Update this product price");
+        System.out.println("2- Update this product name");
+        System.out.println("3- Update the product supplier catalog number");
+        System.out.println("4- Update a discount for this product");
+        System.out.println("back- Go to the previous menu");
+    }
+
+    @Override
+    public View nextInput(String input) {
+        switch(input) {
+            case "back":
+                return new BillOfQuantityView(supplierModel);
+            case "1":
+                return billOfQuantityViewModel.updatePrice(catalogNumber);
+            case "2":
+                return billOfQuantityViewModel.updateName(catalogNumber);
+            case "3":
+                return billOfQuantityViewModel.updateSupplierCatalog(catalogNumber);
+            case "4":
+                return billOfQuantityViewModel.updateDiscount(catalogNumber);
+            case "close":
+                ApplicationView.shouldTerminate = true;
+                break;
+            default:
+                System.out.println("Invalid input");
+
+        }
+        return this;
+    }
+}
